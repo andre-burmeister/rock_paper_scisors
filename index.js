@@ -16,3 +16,7 @@ function getComputerChoice() {
   // return ["rock", "paper", "scissors"][index]
 }
 
+function getHumanChoice() {
+  return prompt("Write rock, paper, or scissors:")
+}
+
