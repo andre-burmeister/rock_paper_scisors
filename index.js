@@ -10,14 +10,6 @@ function getComputerChoice() {
     default: // case 2
       return "scissors";
   };
-
-  // Solution with arrays:
-  // const index = Math.floor(Math.random() * 3)
-  // return ["rock", "paper", "scissors"][index]
-};
-
-function getHumanChoice() {
-  return prompt("Write rock, paper, or scissors:").toLowerCase();
 };
 
 const makeFirstLetterUpper = (s) => s[0].toUpperCase() + s.slice(1);
@@ -30,26 +22,37 @@ function playGame() {
 
   function playRound(humanChoice, computerChoice) {
     const choiceIndDiff = choiceArr.indexOf(humanChoice) - choiceArr.indexOf(computerChoice);
-    console.log(`You picked: ${humanChoice}\nComputer picked: ${computerChoice}`);
+
+    const player = document.querySelector(".player")
+    const computer = document.querySelector(".computer")
+    const result = document.querySelector(".result")
+    player.textContent = `You picked: ${humanChoice}`;
+    computer.textContent = `Computer picked: ${computerChoice}`;
+
     if (choiceIndDiff === 0) { // Draw
-      console.log(`It's a draw!`);
+      result.textContent = `It's a draw!`;
       return;
     } else if (choiceIndDiff === 1 || choiceIndDiff === -2) { // Human wins
       humanScore += 1;
-      console.log(`${makeFirstLetterUpper(humanChoice)} beats ${computerChoice}! You win!`);
+      result.textContent = `${makeFirstLetterUpper(humanChoice)} beats ${computerChoice}! You win!`;
     } else if (choiceIndDiff === -1 || choiceIndDiff === 2) { // Human loses
       computerScore += 1;
-      console.log(`${makeFirstLetterUpper(computerChoice)} beats ${humanChoice}! You loose!`);
+      result.textContent = `\n${makeFirstLetterUpper(computerChoice)} beats ${humanChoice}! You loose!`;
     };
   };
 
-  let i = 1;
-  while (i<=5 && humanScore < 3 && computerScore < 3) {
-    console.log(`\n\nRound ${i}`);
-    playRound(getHumanChoice(), getComputerChoice());
-    console.log(`Score: you (${humanScore}) x computer (${computerScore})`);
-    i++;
-  };
+  const buttons = document.querySelector(".buttons")
+  buttons.addEventListener('click', (e) => {
+    playRound(e.target.textContent.toLowerCase(), getComputerChoice())
+  })
+
+  // let i = 1;
+  // while (i<=5 && humanScore < 3 && computerScore < 3) {
+  //   console.log(`\n\nRound ${i}`);
+  //   playRound(getHumanChoice(), getComputerChoice());
+  //   console.log(`Score: you (${humanScore}) x computer (${computerScore})`);
+  //   i++;
+  // };
   
   if (humanScore > computerScore) {
     console.log(`Congratulations! You won!`);
