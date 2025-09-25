@@ -14,14 +14,15 @@ function getComputerChoice() {
 
 const makeFirstLetterUpper = (s) => s[0].toUpperCase() + s.slice(1);
 
+const CHOICE_ARR = ['rock', 'paper', 'scissors'];
+
 function playGame() {
 
   let humanScore = 0;
   let computerScore = 0;
-  const choiceArr = ['rock', 'paper', 'scissors'];
 
   function playRound(humanChoice, computerChoice) {
-    const choiceIndDiff = choiceArr.indexOf(humanChoice) - choiceArr.indexOf(computerChoice);
+    const choiceIndDiff = CHOICE_ARR.indexOf(humanChoice) - CHOICE_ARR.indexOf(computerChoice);
 
     const result = document.querySelector(".result");
     result.innerHTML = `You picked: ${humanChoice}<br>`;
@@ -40,30 +41,71 @@ function playGame() {
     result.innerHTML += `You: ${humanScore}<br>Computer: ${computerScore}`;
   };
 
+  const buttonsContainer = document.querySelector(".buttons.container");
+  const gameButtons = createGameButtons();
+  buttonsContainer.appendChild(gameButtons);
+
   function endGame() {
-    const finalMessage = document.querySelector(".final");
-    if (humanScore >= 5) {
-      finalMessage.innerHTML = `Congratulations! You won!<br>
-        Click any button to play again.`;
-      humanScore = 0;
-      computerScore = 0;
-    } else if (computerScore >= 5) {
-      finalMessage.innerHTML = `Congratulations! You won!<br>
-        Click any button to play again.`;
-      humanScore = 0;
-      computerScore = 0;
-    };
+    humanScore = 0;
+    computerScore = 0;
+    buttonsContainer.replaceChildren();
+    const messagesChildren = document.querySelector(".messages").childNodes;
+    messagesChildren.forEach((message) => {
+      message.textContent = ""
+    })
+
+    startGame("Play Again");
   };
 
-  const buttons = document.querySelector(".buttons");
-  buttons.addEventListener('click', (e) => {
+  gameButtons.addEventListener('click', (e) => {
     const finalMessage = document.querySelector(".final");
     finalMessage.innerHTML = ''
-
-
     playRound(e.target.textContent.toLowerCase(), getComputerChoice());
-    endGame();
+    if (humanScore >= 5) {
+      finalMessage.innerHTML = `Congratulations! You won!`;
+      endGame();
+    } else if (computerScore >= 5) {
+      finalMessage.innerHTML = `Computer won! You lose!`;
+      endGame();
+    };
   });
 };
 
-playGame();
+function startGame(message) {
+  const buttonsContainer = document.querySelector(".buttons.container");
+  const uiButtons = createUiButtons(message);
+  const startButton = uiButtons.firstChild
+
+  startButton.addEventListener('click', (e) => {
+    buttonsContainer.removeChild(uiButtons);
+    playGame();
+  });
+
+  buttonsContainer.appendChild(uiButtons);
+};
+
+function createGameButtons() {
+  const gameButtons = document.createElement("div")
+  gameButtons.classList.add("game", "buttons");
+  for (let choice of CHOICE_ARR) {
+    const button = document.createElement('button');
+    button.classList.add(choice);
+    button.textContent = makeFirstLetterUpper(choice);
+    gameButtons.appendChild(button);
+  };
+  return gameButtons;
+}
+
+function createUiButtons(message) {
+  const uiButtons = document.createElement("div");
+  uiButtons.classList.add("ui", "buttons");
+
+  const startButton = document.createElement("button");
+  startButton.classList.add("start");
+  startButton.textContent = message;
+
+  uiButtons.appendChild(startButton);
+  return uiButtons;
+};
+
+startGame("Start");
