@@ -14,6 +14,8 @@ function getComputerChoice() {
 
 const makeFirstLetterUpper = (s) => s[0].toUpperCase() + s.slice(1);
 
+const choiceEmoji = {"rock": "✊", "paper": "🖐", "scissors": "✌️"};
+
 const CHOICE_ARR = ['rock', 'paper', 'scissors'];
 
 function playGame() {
@@ -29,8 +31,8 @@ function playGame() {
 
   function playRound(humanChoice, computerChoice) {
     const choiceIndDiff = CHOICE_ARR.indexOf(humanChoice) - CHOICE_ARR.indexOf(computerChoice);
-    result.innerHTML = `You picked: ${humanChoice}<br>`;
-    result.innerHTML += `Computer picked: ${computerChoice}<br>`;
+    result.innerHTML = `You picked: <b>${humanChoice}</b> ${choiceEmoji[humanChoice]} <br>`;
+    result.innerHTML += `Computer picked: <b>${computerChoice}</b> ${choiceEmoji[humanChoice]}<br>`;
 
     if (choiceIndDiff === 0) { // Draw
       result.innerHTML += `It's a draw!<br>`;
@@ -43,7 +45,7 @@ function playGame() {
     };
 
     result.innerHTML += `You: ${humanScore}<br>Computer: ${computerScore}`;
-    activeContainer.appendChild(result)
+    activeContainer.appendChild(result);
   };
 
   const gameButtons = createGameButtons();
@@ -60,7 +62,9 @@ function playGame() {
 
   gameButtons.addEventListener('click', (e) => {
     result.innerHTML = '';
-    playRound(e.target.textContent.toLowerCase(), getComputerChoice());
+    const classList = e.target.classList;
+    const humanChoice = classList[classList.length - 1];
+    playRound(humanChoice, getComputerChoice());
     if (humanScore >= 5) {
       result.innerHTML = `Congratulations! You won!<br>
       You: ${humanScore}<br>Computer: ${computerScore}`;
@@ -88,12 +92,12 @@ function startGame(message) {
 };
 
 function createGameButtons() {
-  const gameButtons = document.createElement("div")
+  const gameButtons = document.createElement("div");
   gameButtons.classList.add("game", "buttons");
   for (let choice of CHOICE_ARR) {
     const button = document.createElement('button');
     button.classList.add(choice);
-    button.textContent = makeFirstLetterUpper(choice);
+    button.textContent = choiceEmoji[choice];
     gameButtons.appendChild(button);
   };
   return gameButtons;

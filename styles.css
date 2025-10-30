@@ -1,12 +1,12 @@
 * {
   box-sizing: border-box;
-  background-color:	#192428;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
 .main {
+  background-color:	#192428;
   display: flex;
   text-align: center;
   flex-direction: row;
@@ -62,4 +62,5 @@ button {
   background-color: #0784b5;
   color: #2d383c;
   font-size: 20px;
+  padding: 5px 10px;
 }
