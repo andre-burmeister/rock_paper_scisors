@@ -21,10 +21,14 @@ function playGame() {
   let humanScore = 0;
   let computerScore = 0;
 
+  const activeContainer = document.querySelector(".active");
+  const result = document.createElement("p");
+  result.className = "result message";
+  
+
+
   function playRound(humanChoice, computerChoice) {
     const choiceIndDiff = CHOICE_ARR.indexOf(humanChoice) - CHOICE_ARR.indexOf(computerChoice);
-
-    const result = document.querySelector(".result");
     result.innerHTML = `You picked: ${humanChoice}<br>`;
     result.innerHTML += `Computer picked: ${computerChoice}<br>`;
 
@@ -39,49 +43,48 @@ function playGame() {
     };
 
     result.innerHTML += `You: ${humanScore}<br>Computer: ${computerScore}`;
+    activeContainer.appendChild(result)
   };
 
-  const buttonsContainer = document.querySelector(".buttons.container");
   const gameButtons = createGameButtons();
-  buttonsContainer.appendChild(gameButtons);
+  activeContainer.appendChild(gameButtons);
 
   function endGame() {
     humanScore = 0;
     computerScore = 0;
-    buttonsContainer.replaceChildren();
-    const messagesChildren = document.querySelector(".messages").childNodes;
-    messagesChildren.forEach((message) => {
-      message.textContent = ""
-    })
+    activeContainer.replaceChildren();
+    activeContainer.appendChild(result);
 
     startGame("Play Again");
   };
 
   gameButtons.addEventListener('click', (e) => {
-    const finalMessage = document.querySelector(".final");
-    finalMessage.innerHTML = ''
+    result.innerHTML = '';
     playRound(e.target.textContent.toLowerCase(), getComputerChoice());
     if (humanScore >= 5) {
-      finalMessage.innerHTML = `Congratulations! You won!`;
+      result.innerHTML = `Congratulations! You won!<br>
+      You: ${humanScore}<br>Computer: ${computerScore}`;
       endGame();
     } else if (computerScore >= 5) {
-      finalMessage.innerHTML = `Computer won! You lose!`;
+      result.innerHTML = `Computer won! You lose!
+      <br>
+      You: ${humanScore}<br>Computer: ${computerScore}`;
       endGame();
     };
   });
 };
 
 function startGame(message) {
-  const buttonsContainer = document.querySelector(".buttons.container");
+  const activeContainer = document.querySelector(".active");
   const uiButtons = createUiButtons(message);
-  const startButton = uiButtons.firstChild
+  const startButton = uiButtons.lastChild;
 
   startButton.addEventListener('click', (e) => {
-    buttonsContainer.removeChild(uiButtons);
+    activeContainer.replaceChildren();
     playGame();
   });
 
-  buttonsContainer.appendChild(uiButtons);
+  activeContainer.appendChild(uiButtons);
 };
 
 function createGameButtons() {
