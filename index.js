@@ -21,7 +21,7 @@ function playGame() {
   let humanScore = 0;
   let computerScore = 0;
 
-  const activeContainer = document.querySelector(".active");
+  const activeContainer = document.querySelector(".active.inner");
   const result = document.createElement("p");
   result.className = "result message";
   
@@ -75,7 +75,7 @@ function playGame() {
 };
 
 function startGame(message) {
-  const activeContainer = document.querySelector(".active");
+  const activeContainer = document.querySelector(".active.inner");
   const uiButtons = createUiButtons(message);
   const startButton = uiButtons.lastChild;
 

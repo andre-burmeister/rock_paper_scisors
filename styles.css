@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
+  background-color:	#192428;
   font-family: Arial, sans-serif;
-  color: rgb(0, 69, 112);
   margin: 0;
   padding: 0;
 }
@@ -17,4 +17,49 @@
 .container {
   max-width: 600px;
   text-align: center;
+}
+
+h1 {
+  color: #39ace7;
+  margin: 20px 0;
+}
+
+p {
+  color: #0784b5;
+  margin-bottom: 20px;
+}
+
+.active.outer {
+  padding: 20px;
+}
+
+.active {
+  background-color: #2d383c;
+}
+
+.active > * {
+  background-color: #2d383c;
+}
+
+.active.inner {
+  display: flex;
+  flex-direction: column;
+  height: 1000px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+
+.result {
+  margin: 20px 0;
+}
+
+button {
+  background-color: #0784b5;
+  color: #2d383c;
+  font-size: 20px;
 }
